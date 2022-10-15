@@ -1,0 +1,410 @@
+CREATE DATABASE FlyAce;
+USE FlyAce;
+
+CREATE TABLE Planes
+(
+[ID] INT IDENTITY(1,1) NOT NULL,
+[PreFix] VARCHAR(2) NOT NULL default('P'),
+Plane_Id AS ([PreFix]+ RIGHT('00' + CAST(Id AS VARCHAR(7)), 7)) PERSISTED PRIMARY KEY,
+Plane_Name VARCHAR(20),
+No_of_Seats INT
+);
+
+
+CREATE Table [Routes]
+(
+[ID] INT IDENTITY(1,1) NOT NULL,
+[PreFix] VARCHAR(2) NOT NULL default('R'),
+Route_Id AS ([PreFix]+ RIGHT('00' + CAST(Id AS VARCHAR(7)),7 )) PERSISTED PRIMARY KEY,
+Plane_Id VARCHAR(9) FOREIGN KEY REFERENCES Planes(Plane_Id),
+[Day] varchar(30),	
+Arrival_Time time,
+Departure_Time time,	
+[Source] varchar(20),
+Destination varchar(20),
+Duration AS (DateDiff(hour,Arrival_Time,Departure_Time)),
+Price_B	float,
+Price_E float,
+);
+
+
+CREATE Table Schedule
+(
+[ID] INT IDENTITY(1,1) NOT NULL,
+[PreFix] VARCHAR(2) NOT NULL default('S'),
+Schedule_Id AS ([PreFix]+ RIGHT('00' + CAST(Id AS VARCHAR(7)), 7)) PERSISTED PRIMARY KEY,
+Route_Id VARCHAR(9) FOREIGN KEY REFERENCES [Routes](Route_Id),
+Travel_Date Date,
+isAvailability BIT DEFAULT 1
+);
+
+
+CREATE TABLE Flights
+(
+Flight_ID INT IDENTITY(1,1) PRIMARY KEY,
+seatNo VARCHAR(5) NOT NULL,
+schedule_ID VARCHAR(9) FOREIGN KEY REFERENCES Schedule(Schedule_Id),
+ticket_ID VARCHAR(10),
+isAvailable bit default 1,
+seatClass VARCHAR(20)
+)
+
+
+CREATE table user_details
+(
+Id int identity(1,1) NOT NULL,
+email varchar(20) Primary Key,
+FirstName varchar(20)not null,
+LastName varchar(20),
+[password] varchar(20)not null,
+Phoneno bigint not null,
+DOB date not null,
+)
+
+
+CREATE TABLE Bank
+ (
+ Card_No bigint primary key,
+ Card_HolderName varchar(50) NOT NULL,
+ Card_Type varchar(20) NOT NULL,
+ Expires date NOT NULL,
+ CVV int NOT NULL,
+ Balance decimal NOT NULL
+ )
+
+ 
+CREATE table Transactions
+(
+[ID] INT IDENTITY(1,1) NOT NULL,
+[PreFix] VARCHAR(2) NOT NULL default('Tr'),
+Transaction_Id AS ([PreFix]+ RIGHT('0000' + CAST(Id AS VARCHAR(7)), 7)) PERSISTED PRIMARY KEY,
+email VARCHAR(20) foreign key references user_details([email]),
+amount float not null,
+booking_time DATETIME default GETDATE(),
+TansactionType varchar(20) not null,
+CardNo BIGINT FOREIGN KEY REFERENCES Bank([Card_No])
+)
+
+
+CREATE table Tickets 
+(
+[ID] INT IDENTITY(1,1) NOT NULL,
+[PreFix] VARCHAR(2) NOT NULL default('Tk'),
+Ticket_Id AS ([PreFix]+ RIGHT('00000' + CAST(Id AS VARCHAR(7)), 7)) PERSISTED PRIMARY KEY,
+Transaction_Id VARCHAR(9) foreign key references [transactions](Transaction_Id),
+passenger_name varchar(20) not null,
+seatNo varchar(5) not null,
+schedule_ID VARCHAR(9) foreign key references schedule(schedule_ID),
+Ticket_status varchar(20) not null,
+Passenger_type varchar(20) not null,
+email VARCHAR(20) foreign key references user_details([email]),
+document_type varchar(20) not null,
+document_no varchar(20) not null
+) 
+
+/*Querries Table*/
+CREATE TABLE Querries
+(
+Id INT IDENTITY(1,1) PRIMARY KEY,
+[name] VARCHAR(20),
+[email] VARCHAR(20),
+phone BIGINT,
+location VARCHAR(15),
+querry VARCHAR(MAX),
+status bit default(0),
+)
+
+
+/*Marketing Emails*/
+CREATE TABLE MarketEmail
+(
+Id INT IDENTITY(1,1) PRIMARY KEY,
+[email] VARCHAR(20),
+)
+
+
+/*****************************PROCEDURES*********************/
+/* Adding Seat No*/
+CREATE PROCEDURE prc_FlightSeats(@no INT, @scheduleID VARCHAR(10))
+AS
+BEGIN
+DECLARE @i INT  = 0;
+DECLARE @seat Varchar(5);
+DECLARE @class Varchar(15) = 'business';
+DECLARE @pchar INT = 65;
+DECLARE @pre INT = 0;
+WHILE @i < @no
+BEGIN
+	
+	SET @pchar = @pchar + 1;
+	IF(@i%4=0)
+	BEGIN
+		SET @pchar = 65;
+		SET @pre = @pre +1;
+	END
+	IF(@i=8)
+	BEGIN
+		SET @class = 'economy';
+	END
+	SET @seat = CONCAT(@pre, CHAR(@pchar));
+	INSERT INTO Flights
+	(SeatNo,  seatClass, schedule_ID)
+	VALUES
+	(@seat, @class, @scheduleID);
+	SET @i = @i +1;
+END
+END;
+
+
+/* Adding Travel Date*/
+CREATE PROCEDURE prc_AddTravelDate(@day VARCHAR(20), @noWeeks INT, @Rout_Id VARCHAR(15), @noSeats INT)
+AS
+BEGIN
+DECLARE @currentDate DATE = GETDATE();
+DECLARE @trvDate DATE;
+DECLARE @i INT = 0;
+DECLARE @firstDate DATE;
+DECLARE @DayCheck VARCHAR(10);
+IF(DATENAME(WEEKDAY, @currentDate) = @day)
+BEGIN
+	SET @firstDate = @currentDate;
+END
+ELSE
+BEGIN
+	WHILE (DATENAME(WEEKDAY, @currentDate) != @day)
+	BEGIN
+		SET @currentDate = DATEADD(DAY,1, @currentDate);
+	END
+	SET @firstDate = @currentDate;
+END
+WHILE @i < @noWeeks
+BEGIN
+	SET @trvDate = DATEADD(WEEK, 1, @firstDate);
+	SET @i = @i +1;
+	SET @firstDate = @trvDate;
+	INSERT INTO Schedule
+	(Route_Id, Travel_Date)
+	VALUES
+	(@Rout_Id, @trvDate);
+	DECLARE @schID VARCHAR(15);
+	SET @schID = (SELECT TOP(1) Schedule_Id FROM Schedule ORDER BY ID DESC);
+	PRINT @schID;
+	EXEC prc_FlightSeats @noSeats, @schID;
+	PRINT 'SEATS ADDED';
+END
+END;
+
+
+/* Adding in Plane and Route*/
+CREATE PROCEDURE prc_AddFlights(@planeName VARCHAR(20), @NoSeats INT, @day VARCHAR(30), @arrTime TIME, @deptTime TIME, @from VARCHAR(20), @to VARCHAR(20), @priceB float, @priceE float, @noWeeks INT)
+AS
+BEGIN
+/*inserting in plane table*/
+	DECLARE @planeID VARCHAR(15);
+	SET @planeID = (SELECT Plane_Id FROM Planes WHERE Plane_Name = @planeName);
+	IF(@planeID is null)
+	BEGIN
+		INSERT INTO Planes
+		(Plane_Name, No_of_Seats)
+		VALUES
+		(@planeName, @NoSeats);
+		SET @planeID = (SELECT Plane_Id FROM Planes WHERE Plane_Name = @planeName);
+		PRINT @planeID;
+	END
+/*inserting in Route table*/
+	INSERT INTO [Routes]
+	([Day], Arrival_Time, Departure_Time, Plane_Id, [Source], Destination, Price_B, Price_E)
+	VALUES
+	(@day, @arrTime, @deptTime, @planeID, @from, @to, @priceB, @priceE);
+
+	DECLARE @routeID VARCHAR(15);
+	SET @routeID = (SELECT Route_Id FROM [Routes] WHERE (Plane_Id = @planeID AND [Day]=@day AND Source=@from));
+	PRINT @routeID;
+/*inserting in Schedule Table*/
+	EXEC prc_AddTravelDate @day, @noWeeks, @routeID, @NoSeats;
+	PRINT 'DONE';
+END
+
+
+ /* To get details of a flights from A to B on a paticular date */
+ CREATE PROCEDURE prc_getFlights( @from VARCHAR(20),
+@to varchar(20) ,
+@trvDate Date)
+AS
+BEGIN
+SELECT S.Schedule_Id, P.Plane_Name, S.Travel_Date,  R.[Day], R.Source, R.Destination, R.Arrival_Time, R.Departure_Time, R.Duration, R.Price_B, R.Price_E,
+(SELECT COUNT(seatNo) FROM Flights WHERE schedule_ID = S.Schedule_Id AND isAvailable=1) AS 'RemainingSeats' 
+FROM
+(([Routes] R INNER JOIN Schedule S
+ON R.Route_Id = S.Route_Id
+)
+INNER JOIN Planes P
+ON R.Plane_Id = P.Plane_Id
+)
+WHERE(
+S.Travel_Date = @trvDate
+AND
+R.[Source] = @from
+AND
+R.Destination = @to
+AND
+S.isAvailability = 1
+)
+ORDER BY  R.Departure_Time;
+END
+
+
+
+/*View All Schedule - Admin Side*/
+ CREATE PROCEDURE prc_ViewSchedule
+ AS 
+ BEGIN
+ SELECT S.Schedule_Id, P.Plane_Name, S.Travel_Date, R.Source, R.Destination, R.Departure_Time, R.Arrival_Time, R.Duration, P.No_of_Seats,
+ (SELECT COUNT(seatNo) FROM Flights WHERE schedule_ID = S.Schedule_Id AND isAvailable=0) AS 'Seats Booked' 
+ FROM 
+(([Routes] R INNER JOIN Schedule S
+ON R.Route_Id = S.Route_Id
+)
+INNER JOIN Planes P
+ON R.Plane_Id = P.Plane_Id
+)
+WHERE S.isAvailability=1
+ order by S.Travel_Date;
+END
+
+
+/*To Disable Schedule - Admin Side */
+CREATE PROCEDURE prc_DisableSchedule(@schedule_ID VARCHAR(9) )
+AS
+BEGIN
+UPDATE Schedule 
+SET 
+isAvailability = 0 
+WHERE Schedule_Id = @schedule_ID
+END
+
+
+/*Get Ticket*/ 
+CREATE procedure prc_displayTicket(@email varchar(20))
+ as
+ begin
+ select Schedule.Schedule_Id, Tickets.Ticket_id ,Tickets.passenger_name,Tickets.seatNo, Tickets.Ticket_status,Tickets.passenger_type,Routes.Source,Routes.Destination,Routes.Arrival_Time,Routes.Departure_Time, Schedule.Travel_Date, [Routes].Duration,
+ (SELECT Transactions.booking_time FROM Transactions WHERE Transaction_Id = Tickets.Transaction_Id) As 'booking_time',
+ (SELECT Flights.seatClass  FROM Flights WHERE Flights.seatNo = Tickets.seatNo AND Flights.schedule_ID = Schedule.Schedule_Id) AS 'Class'
+ from Tickets
+ inner join Schedule
+ on Tickets.schedule_ID=Schedule.Schedule_Id
+ inner join Routes
+ on Schedule.Route_Id=Routes.Route_Id
+ where email=@email
+ order by Schedule.Travel_Date;
+ end
+
+
+ /*get Seats*/
+ create procedure prc_getSeats @ScheduleID VARCHAR(9)
+ AS
+ BEGIN
+ SELECT seatNo, isAvailable, seatClass
+ FROM Flights
+ WHERE schedule_ID = @ScheduleID;
+ END
+
+ 
+ /*Ticket Cancelation*/
+ CREATE procedure prc_cancelTicket @TicketId VARCHAR(9)
+AS
+BEGIN
+DECLARE @currentDate DATE
+SET @currentDate = CAST( GETDATE() AS DATE)
+DECLARE @Sch_Id varchar(9)
+SET @Sch_Id =( SELECT Schedule_ID from Tickets WHERE Ticket_Id = @TicketId);
+DECLARE @TravelDate DATE
+SET @TravelDate = (SELECT Travel_Date from Schedule WHERE Schedule_Id = @Sch_Id);
+IF(@currentDate > @TravelDate)
+BEGIN
+PRINT 'INVALID FLIGHT SCHEDULE'
+END
+ELSE IF(@currentDate = @TravelDate)
+BEGIN
+DECLARE @currentTime TIME
+SET @currentTime = CAST (GETDATE() AS TIME)
+DECLARE @DepartTime Time
+SET @DepartTime = (SELECT Departure_Time from [Routes] R INNER JOIN Schedule S ON R.Route_Id = S.Route_Id WHERE S.Schedule_Id = @Sch_Id ) ;
+IF ( DateDiff(hour,@DepartTime,@currentTime)<=3)
+BEGIN
+PRINT 'TIME ERROR';
+END
+ELSE
+BEGIN
+UPDATE Tickets
+SET Ticket_status = 'canceled'
+WHERE Ticket_Id = @TicketId;
+UPDATE Flights
+SET isAvailable = 1, ticket_ID = null
+WHERE ticket_ID = @TicketId;
+END
+END
+ELSE
+BEGIN
+UPDATE Tickets
+SET Ticket_status = 'canceled'
+WHERE Ticket_Id = @TicketId;
+UPDATE Flights
+SET isAvailable = 1, ticket_ID = null
+WHERE ticket_ID = @TicketId;
+END
+END
+GO
+
+
+/*Genereate Transaction*/
+CREATE PROCEDURE prc_generateTransaction(@email varchar(20),@amount float,@t_type varchar(20),@cardno bigint)
+as
+begin
+Insert into Transactions
+(email,amount,TansactionType,CardNo)
+values
+(@email,@amount ,@t_type ,@cardno );
+SELECT TOP(1) Transaction_Id FROM Transactions ORDER BY ID DESC;
+end
+
+
+
+/*Book Tickets*/
+CREATE PROCEDURE prc_bookTicktes(@transId varchar(9), @Pname varchar(20), @seatNo varchar(5), @Sch_Id varchar(9), @P_Type varchar(20), @email Varchar(20),@doc_type varchar(20), @doc_no varchar(20))
+AS
+BEGIN  INSERT INTO Tickets
+(Transaction_Id, Passenger_Name,SeatNo,Schedule_Id, Ticket_Status, Passenger_Type, email, document_type,document_no)
+VALUES
+(@transId, @Pname, @seatNo, @Sch_Id, 'booked', @P_Type, @email, @doc_type, @doc_no);  UPDATE Flights
+SET
+ticket_ID = (SELECT Ticket_Id From Tickets T WHERE SeatNo = @seatNo AND Schedule_Id = @Sch_Id AND Ticket_status= 'booked') ,
+isAvailable = 0
+WHERE SeatNo = @seatNo AND Schedule_Id = @Sch_id;
+END
+
+/*******************************SELECTS*************************************/
+SELECT * FROM Planes order by ID;
+SELECT * FROM [Routes]order by ID;
+SELECT * FROM Schedule order by ID;
+SELECT * FROM Flights order by Flight_ID;
+SELECT * FROM  Transactions;
+Select * from Tickets;
+select * from user_details;
+SELECT * FROM Bank
+SELECT * FROM MarketEmail
+SELECT * FROM Querries
+
+EXEC prc_AddFlights 'FirstPlane', 20, 'Wednesday', '10:00','05:00',  'Delhi', 'Jaipur', 4500, 2500, 3;
+EXEC prc_AddFlights 'FirstPlane', 20, 'Friday', '14:30','12:00',  'Jaipur', 'Delhi', 4000, 2000, 3; 
+
+    
+INSERT INTO user_details(email,FirstName,LastName,[password],Phoneno,DOB) VALUES('jeffb@gmail.com','Jeff','B','JeffB123',9000005588,'05/13/1995')
+INSERT INTO user_details ( FirstName,LastName,email,[password],Phoneno,DOB ) VALUES ('SSS','D','SSS@gmail.com','SSS123456',987457777,'01/01/1998')
+INSERT INTO user_details(email,FirstName,LastName,[password],Phoneno,DOB) VALUES('admin@admin.com','Admin','Admin','admin',9000005588,'05/13/1995')
+
+
+
+ Delete from user_details where DOB='0001-01-01';
+ INSERT INTO Bank values(7677656496969999,'Jeff B','Debit','10-11-2024',8888,100000);

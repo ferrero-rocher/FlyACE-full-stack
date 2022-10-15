@@ -1,0 +1,1015 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FlyAceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="Card_No" />
+          </Key>
+          <Property Name="Card_No" Type="bigint" Nullable="false" />
+          <Property Name="Card_HolderName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Card_Type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Expires" Type="date" Nullable="false" />
+          <Property Name="CVV" Type="int" Nullable="false" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Flights">
+          <Key>
+            <PropertyRef Name="Flight_ID" />
+          </Key>
+          <Property Name="Flight_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="seatNo" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="schedule_ID" Type="varchar" MaxLength="9" />
+          <Property Name="ticket_ID" Type="varchar" MaxLength="10" />
+          <Property Name="isAvailable" Type="bit" />
+          <Property Name="seatClass" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="MarketEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Planes">
+          <Key>
+            <PropertyRef Name="Plane_Id" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PreFix" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Plane_Id" Type="varchar" MaxLength="9" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Plane_Name" Type="varchar" MaxLength="20" />
+          <Property Name="No_of_Seats" Type="int" />
+        </EntityType>
+        <EntityType Name="Querries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="varchar" MaxLength="20" />
+          <Property Name="phone" Type="bigint" />
+          <Property Name="location" Type="varchar" MaxLength="15" />
+          <Property Name="querry" Type="varchar(max)" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Routes">
+          <Key>
+            <PropertyRef Name="Route_Id" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PreFix" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Route_Id" Type="varchar" MaxLength="9" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Plane_Id" Type="varchar" MaxLength="9" />
+          <Property Name="Day" Type="varchar" MaxLength="30" />
+          <Property Name="Arrival_Time" Type="time" Precision="7" />
+          <Property Name="Departure_Time" Type="time" Precision="7" />
+          <Property Name="Source" Type="varchar" MaxLength="20" />
+          <Property Name="Destination" Type="varchar" MaxLength="20" />
+          <Property Name="Duration" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="Price_B" Type="float" />
+          <Property Name="Price_E" Type="float" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="Schedule_Id" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PreFix" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Schedule_Id" Type="varchar" MaxLength="9" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Route_Id" Type="varchar" MaxLength="9" />
+          <Property Name="Travel_Date" Type="date" />
+          <Property Name="isAvailability" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="Ticket_Id" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PreFix" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Ticket_Id" Type="varchar" MaxLength="9" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Transaction_Id" Type="varchar" MaxLength="9" />
+          <Property Name="passenger_name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="seatNo" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="schedule_ID" Type="varchar" MaxLength="9" />
+          <Property Name="Ticket_status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Passenger_type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="20" />
+          <Property Name="document_type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="document_no" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="Transaction_Id" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PreFix" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Transaction_Id" Type="varchar" MaxLength="9" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="20" />
+          <Property Name="amount" Type="float" Nullable="false" />
+          <Property Name="booking_time" Type="datetime" />
+          <Property Name="TansactionType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CardNo" Type="bigint" />
+        </EntityType>
+        <EntityType Name="user_details">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="20" />
+          <Property Name="password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Phoneno" Type="bigint" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Flights__schedul__300424B4">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+          <End Role="Flights" Type="Self.Flights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="Schedule_Id" />
+            </Principal>
+            <Dependent Role="Flights">
+              <PropertyRef Name="schedule_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Routes__Plane_Id__286302EC">
+          <End Role="Planes" Type="Self.Planes" Multiplicity="0..1" />
+          <End Role="Routes" Type="Self.Routes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Planes">
+              <PropertyRef Name="Plane_Id" />
+            </Principal>
+            <Dependent Role="Routes">
+              <PropertyRef Name="Plane_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Schedule__Route___2C3393D0">
+          <End Role="Routes" Type="Self.Routes" Multiplicity="0..1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Routes">
+              <PropertyRef Name="Route_Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="Route_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__email__403A8C7D">
+          <End Role="user_details" Type="Self.user_details" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_details">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__schedul__3F466844">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="Schedule_Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="schedule_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__Transac__3E52440B">
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="Transaction_Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="Transaction_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__CardN__3A81B327">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Card_No" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="CardNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__email__38996AB5">
+          <End Role="user_details" Type="Self.user_details" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_details">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="prc_AddFlights" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="planeName" Type="varchar" Mode="In" />
+          <Parameter Name="NoSeats" Type="int" Mode="In" />
+          <Parameter Name="day" Type="varchar" Mode="In" />
+          <Parameter Name="arrTime" Type="time" Mode="In" />
+          <Parameter Name="deptTime" Type="time" Mode="In" />
+          <Parameter Name="from" Type="varchar" Mode="In" />
+          <Parameter Name="to" Type="varchar" Mode="In" />
+          <Parameter Name="priceB" Type="float" Mode="In" />
+          <Parameter Name="priceE" Type="float" Mode="In" />
+          <Parameter Name="noWeeks" Type="int" Mode="In" />
+        </Function>
+        <Function Name="prc_AddTravelDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="day" Type="varchar" Mode="In" />
+          <Parameter Name="noWeeks" Type="int" Mode="In" />
+          <Parameter Name="Rout_Id" Type="varchar" Mode="In" />
+          <Parameter Name="noSeats" Type="int" Mode="In" />
+        </Function>
+        <Function Name="prc_bookTicktes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="transId" Type="varchar" Mode="In" />
+          <Parameter Name="Pname" Type="varchar" Mode="In" />
+          <Parameter Name="seatNo" Type="varchar" Mode="In" />
+          <Parameter Name="Sch_Id" Type="varchar" Mode="In" />
+          <Parameter Name="P_Type" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="doc_type" Type="varchar" Mode="In" />
+          <Parameter Name="doc_no" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="prc_cancelTicket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TicketId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="prc_DisableSchedule" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="schedule_ID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="prc_displayTicket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="prc_FlightSeats" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="no" Type="int" Mode="In" />
+          <Parameter Name="scheduleID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="prc_generateTransaction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="amount" Type="float" Mode="In" />
+          <Parameter Name="t_type" Type="varchar" Mode="In" />
+          <Parameter Name="cardno" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="prc_getFlights" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="from" Type="varchar" Mode="In" />
+          <Parameter Name="to" Type="varchar" Mode="In" />
+          <Parameter Name="trvDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="prc_getSeats" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ScheduleID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="prc_ViewSchedule" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="FlyAceModelStoreContainer">
+          <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Flights" EntityType="Self.Flights" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarketEmail" EntityType="Self.MarketEmail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Planes" EntityType="Self.Planes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Querries" EntityType="Self.Querries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Routes" EntityType="Self.Routes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_details" EntityType="Self.user_details" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Flights__schedul__300424B4" Association="Self.FK__Flights__schedul__300424B4">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="Flights" EntitySet="Flights" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Routes__Plane_Id__286302EC" Association="Self.FK__Routes__Plane_Id__286302EC">
+            <End Role="Planes" EntitySet="Planes" />
+            <End Role="Routes" EntitySet="Routes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Schedule__Route___2C3393D0" Association="Self.FK__Schedule__Route___2C3393D0">
+            <End Role="Routes" EntitySet="Routes" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__email__403A8C7D" Association="Self.FK__Tickets__email__403A8C7D">
+            <End Role="user_details" EntitySet="user_details" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__schedul__3F466844" Association="Self.FK__Tickets__schedul__3F466844">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__Transac__3E52440B" Association="Self.FK__Tickets__Transac__3E52440B">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__CardN__3A81B327" Association="Self.FK__Transacti__CardN__3A81B327">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__email__38996AB5" Association="Self.FK__Transacti__email__38996AB5">
+            <End Role="user_details" EntitySet="user_details" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FlyAceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="Card_No" />
+          </Key>
+          <Property Name="Card_No" Type="Int64" Nullable="false" />
+          <Property Name="Card_HolderName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Card_Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Expires" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CVV" Type="Int32" Nullable="false" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__CardN__3A81B327" FromRole="Bank" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="Flight">
+          <Key>
+            <PropertyRef Name="Flight_ID" />
+          </Key>
+          <Property Name="Flight_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="seatNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="schedule_ID" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="ticket_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="isAvailable" Type="Boolean" />
+          <Property Name="seatClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Schedule" Relationship="Self.FK__Flights__schedul__300424B4" FromRole="Flights" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Plane">
+          <Key>
+            <PropertyRef Name="Plane_Id" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Plane_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Plane_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="No_of_Seats" Type="Int32" />
+          <NavigationProperty Name="Routes" Relationship="Self.FK__Routes__Plane_Id__286302EC" FromRole="Planes" ToRole="Routes" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="Route_Id" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Route_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Plane_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Day" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Arrival_Time" Type="Time" Precision="7" />
+          <Property Name="Departure_Time" Type="Time" Precision="7" />
+          <Property Name="Source" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Destination" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Duration" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Price_B" Type="Double" />
+          <Property Name="Price_E" Type="Double" />
+          <NavigationProperty Name="Plane" Relationship="Self.FK__Routes__Plane_Id__286302EC" FromRole="Routes" ToRole="Planes" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK__Schedule__Route___2C3393D0" FromRole="Routes" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="Schedule_Id" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Schedule_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Route_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Travel_Date" Type="DateTime" Precision="0" />
+          <Property Name="isAvailability" Type="Boolean" />
+          <NavigationProperty Name="Flights" Relationship="Self.FK__Flights__schedul__300424B4" FromRole="Schedule" ToRole="Flights" />
+          <NavigationProperty Name="Route" Relationship="Self.FK__Schedule__Route___2C3393D0" FromRole="Schedule" ToRole="Routes" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__schedul__3F466844" FromRole="Schedule" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="Ticket_Id" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ticket_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Transaction_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="passenger_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seatNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="schedule_ID" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Ticket_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Passenger_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="document_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="document_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Schedule" Relationship="Self.FK__Tickets__schedul__3F466844" FromRole="Tickets" ToRole="Schedule" />
+          <NavigationProperty Name="user_details" Relationship="Self.FK__Tickets__email__403A8C7D" FromRole="Tickets" ToRole="user_details" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK__Tickets__Transac__3E52440B" FromRole="Tickets" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Transaction_Id" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Transaction_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="Double" Nullable="false" />
+          <Property Name="booking_time" Type="DateTime" Precision="3" />
+          <Property Name="TansactionType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CardNo" Type="Int64" />
+          <NavigationProperty Name="Bank" Relationship="Self.FK__Transacti__CardN__3A81B327" FromRole="Transactions" ToRole="Bank" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__Transac__3E52440B" FromRole="Transactions" ToRole="Tickets" />
+          <NavigationProperty Name="user_details" Relationship="Self.FK__Transacti__email__38996AB5" FromRole="Transactions" ToRole="user_details" />
+        </EntityType>
+        <EntityType Name="user_details">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phoneno" Type="Int64" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__email__403A8C7D" FromRole="user_details" ToRole="Tickets" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__email__38996AB5" FromRole="user_details" ToRole="Transactions" />
+        </EntityType>
+        <Association Name="FK__Transacti__CardN__3A81B327">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Card_No" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="CardNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Flights__schedul__300424B4">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+          <End Role="Flights" Type="Self.Flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="Schedule_Id" />
+            </Principal>
+            <Dependent Role="Flights">
+              <PropertyRef Name="schedule_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Routes__Plane_Id__286302EC">
+          <End Role="Planes" Type="Self.Plane" Multiplicity="0..1" />
+          <End Role="Routes" Type="Self.Route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Planes">
+              <PropertyRef Name="Plane_Id" />
+            </Principal>
+            <Dependent Role="Routes">
+              <PropertyRef Name="Plane_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Schedule__Route___2C3393D0">
+          <End Role="Routes" Type="Self.Route" Multiplicity="0..1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Routes">
+              <PropertyRef Name="Route_Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="Route_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__schedul__3F466844">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="Schedule_Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="schedule_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__email__403A8C7D">
+          <End Role="user_details" Type="Self.user_details" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_details">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__Transac__3E52440B">
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="Transaction_Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="Transaction_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__email__38996AB5">
+          <End Role="user_details" Type="Self.user_details" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_details">
+              <PropertyRef Name="email" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FlyAceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Banks" EntityType="Self.Bank" />
+          <EntitySet Name="Flights" EntityType="Self.Flight" />
+          <EntitySet Name="Planes" EntityType="Self.Plane" />
+          <EntitySet Name="Routes" EntityType="Self.Route" />
+          <EntitySet Name="Schedules" EntityType="Self.Schedule" />
+          <EntitySet Name="Tickets" EntityType="Self.Ticket" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <EntitySet Name="user_details" EntityType="Self.user_details" />
+          <AssociationSet Name="FK__Transacti__CardN__3A81B327" Association="Self.FK__Transacti__CardN__3A81B327">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Flights__schedul__300424B4" Association="Self.FK__Flights__schedul__300424B4">
+            <End Role="Schedule" EntitySet="Schedules" />
+            <End Role="Flights" EntitySet="Flights" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Routes__Plane_Id__286302EC" Association="Self.FK__Routes__Plane_Id__286302EC">
+            <End Role="Planes" EntitySet="Planes" />
+            <End Role="Routes" EntitySet="Routes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Schedule__Route___2C3393D0" Association="Self.FK__Schedule__Route___2C3393D0">
+            <End Role="Routes" EntitySet="Routes" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__schedul__3F466844" Association="Self.FK__Tickets__schedul__3F466844">
+            <End Role="Schedule" EntitySet="Schedules" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__email__403A8C7D" Association="Self.FK__Tickets__email__403A8C7D">
+            <End Role="user_details" EntitySet="user_details" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__Transac__3E52440B" Association="Self.FK__Tickets__Transac__3E52440B">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__email__38996AB5" Association="Self.FK__Transacti__email__38996AB5">
+            <End Role="user_details" EntitySet="user_details" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <FunctionImport Name="prc_AddFlights">
+            <Parameter Name="planeName" Mode="In" Type="String" />
+            <Parameter Name="NoSeats" Mode="In" Type="Int32" />
+            <Parameter Name="day" Mode="In" Type="String" />
+            <Parameter Name="arrTime" Mode="In" Type="Time" />
+            <Parameter Name="deptTime" Mode="In" Type="Time" />
+            <Parameter Name="from" Mode="In" Type="String" />
+            <Parameter Name="to" Mode="In" Type="String" />
+            <Parameter Name="priceB" Mode="In" Type="Double" />
+            <Parameter Name="priceE" Mode="In" Type="Double" />
+            <Parameter Name="noWeeks" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="prc_AddTravelDate">
+            <Parameter Name="day" Mode="In" Type="String" />
+            <Parameter Name="noWeeks" Mode="In" Type="Int32" />
+            <Parameter Name="Rout_Id" Mode="In" Type="String" />
+            <Parameter Name="noSeats" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="prc_bookTicktes">
+            <Parameter Name="transId" Mode="In" Type="String" />
+            <Parameter Name="Pname" Mode="In" Type="String" />
+            <Parameter Name="seatNo" Mode="In" Type="String" />
+            <Parameter Name="Sch_Id" Mode="In" Type="String" />
+            <Parameter Name="P_Type" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="doc_type" Mode="In" Type="String" />
+            <Parameter Name="doc_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="prc_cancelTicket">
+          <Parameter Name="TicketId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="prc_DisableSchedule">
+          <Parameter Name="schedule_ID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="prc_displayTickets" ReturnType="Collection(FlyAceModel.prc_displayTickets_Result)">
+          <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="prc_FlightSeats">
+            <Parameter Name="no" Mode="In" Type="Int32" />
+            <Parameter Name="scheduleID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="prc_generateTranction" ReturnType="Collection(String)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="amount" Mode="In" Type="Double" />
+            <Parameter Name="t_type" Mode="In" Type="String" />
+            <Parameter Name="cardno" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prc_getSeats" ReturnType="Collection(FlyAceModel.prc_getSeats_Result)">
+          <Parameter Name="ScheduleID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PRC_SearchFlights" ReturnType="Collection(FlyAceModel.PRC_SearchFlights_Result)">
+            <Parameter Name="from" Mode="In" Type="String" />
+            <Parameter Name="to" Mode="In" Type="String" />
+            <Parameter Name="trvDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="prc_ViewSchedule" ReturnType="Collection(FlyAceModel.prc_ViewSchedule_Result)" />
+          <EntitySet Name="MarketEmails" EntityType="FlyAceModel.MarketEmail" />
+          <EntitySet Name="Querries" EntityType="FlyAceModel.Querry" />
+          <FunctionImport Name="prc_generateTransaction" ReturnType="Collection(String)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="amount" Mode="In" Type="Double" />
+            <Parameter Name="t_type" Mode="In" Type="String" />
+            <Parameter Name="cardno" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prc_SearchFlights1" ReturnType="Collection(FlyAceModel.prc_SearchFlights1_Result)">
+            <Parameter Name="from" Mode="In" Type="String" />
+            <Parameter Name="to" Mode="In" Type="String" />
+            <Parameter Name="trvDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="prc_displayTicket" ReturnType="Collection(FlyAceModel.prc_displayTicket_Result)">
+          <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="prc_SearchFlights2" ReturnType="Collection(FlyAceModel.prc_SearchFlights2_Result)">
+            <Parameter Name="from" Mode="In" Type="String" />
+            <Parameter Name="to" Mode="In" Type="String" />
+            <Parameter Name="trvDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="prc_getFlights" ReturnType="Collection(FlyAceModel.prc_getFlights_Result)">
+            <Parameter Name="from" Mode="In" Type="String" />
+            <Parameter Name="to" Mode="In" Type="String" />
+            <Parameter Name="trvDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="prc_displayTickets_Result">
+          <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="Ticket_id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="passenger_name" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="seatNo" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Ticket_status" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="passenger_type" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+          <Property Type="Time" Name="Departure_Time" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="prc_getSeats_Result">
+          <Property Type="String" Name="seatNo" Nullable="false" MaxLength="5" />
+          <Property Type="Boolean" Name="isAvailable" Nullable="true" />
+          <Property Type="String" Name="seatClass" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="PRC_SearchFlights_Result">
+          <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+          <Property Type="String" Name="Day" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+          <Property Type="Time" Name="Departure_Time" Nullable="true" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+          <Property Type="Double" Name="Price_B" Nullable="true" />
+          <Property Type="Double" Name="Price_E" Nullable="true" />
+          <Property Type="Int32" Name="RemainingSeats" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="prc_ViewSchedule_Result">
+          <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="Departure_Time" Nullable="true" />
+          <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+          <Property Type="Int32" Name="Seats_Booked" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="MarketEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Querry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="Int64" />
+          <Property Name="location" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="querry1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+        </EntityType>
+        <ComplexType Name="prc_SearchFlights1_Result">
+          <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+          <Property Type="String" Name="Day" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+          <Property Type="Time" Name="Departure_Time" Nullable="true" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+          <Property Type="Double" Name="Price_B" Nullable="true" />
+          <Property Type="Double" Name="Price_E" Nullable="true" />
+          <Property Type="Int32" Name="RemainingSeats" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="prc_displayTicket_Result">
+          <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="Ticket_id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="passenger_name" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="seatNo" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Ticket_status" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="passenger_type" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+          <Property Type="Time" Name="Departure_Time" Nullable="true" />
+          <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+          <Property Type="DateTime" Name="booking_time" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Class" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="prc_SearchFlights2_Result">
+          <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+          <Property Type="String" Name="Day" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+          <Property Type="Time" Name="Departure_Time" Nullable="true" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+          <Property Type="Double" Name="Price_B" Nullable="true" />
+          <Property Type="Double" Name="Price_E" Nullable="true" />
+          <Property Type="Int32" Name="RemainingSeats" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="prc_getFlights_Result">
+          <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+          <Property Type="String" Name="Day" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+          <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+          <Property Type="Time" Name="Departure_Time" Nullable="true" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+          <Property Type="Double" Name="Price_B" Nullable="true" />
+          <Property Type="Double" Name="Price_E" Nullable="true" />
+          <Property Type="Int32" Name="RemainingSeats" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FlyAceModelStoreContainer" CdmEntityContainer="FlyAceEntities">
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="FlyAceModel.Bank">
+              <MappingFragment StoreEntitySet="Bank">
+                <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+                <ScalarProperty Name="Card_HolderName" ColumnName="Card_HolderName" />
+                <ScalarProperty Name="Card_Type" ColumnName="Card_Type" />
+                <ScalarProperty Name="Expires" ColumnName="Expires" />
+                <ScalarProperty Name="CVV" ColumnName="CVV" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Flights">
+            <EntityTypeMapping TypeName="FlyAceModel.Flight">
+              <MappingFragment StoreEntitySet="Flights">
+                <ScalarProperty Name="Flight_ID" ColumnName="Flight_ID" />
+                <ScalarProperty Name="seatNo" ColumnName="seatNo" />
+                <ScalarProperty Name="schedule_ID" ColumnName="schedule_ID" />
+                <ScalarProperty Name="ticket_ID" ColumnName="ticket_ID" />
+                <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+                <ScalarProperty Name="seatClass" ColumnName="seatClass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Planes">
+            <EntityTypeMapping TypeName="FlyAceModel.Plane">
+              <MappingFragment StoreEntitySet="Planes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+                <ScalarProperty Name="Plane_Id" ColumnName="Plane_Id" />
+                <ScalarProperty Name="Plane_Name" ColumnName="Plane_Name" />
+                <ScalarProperty Name="No_of_Seats" ColumnName="No_of_Seats" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Routes">
+            <EntityTypeMapping TypeName="FlyAceModel.Route">
+              <MappingFragment StoreEntitySet="Routes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+                <ScalarProperty Name="Route_Id" ColumnName="Route_Id" />
+                <ScalarProperty Name="Plane_Id" ColumnName="Plane_Id" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Arrival_Time" ColumnName="Arrival_Time" />
+                <ScalarProperty Name="Departure_Time" ColumnName="Departure_Time" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Price_B" ColumnName="Price_B" />
+                <ScalarProperty Name="Price_E" ColumnName="Price_E" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="FlyAceModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+                <ScalarProperty Name="Schedule_Id" ColumnName="Schedule_Id" />
+                <ScalarProperty Name="Route_Id" ColumnName="Route_Id" />
+                <ScalarProperty Name="Travel_Date" ColumnName="Travel_Date" />
+                <ScalarProperty Name="isAvailability" ColumnName="isAvailability" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="FlyAceModel.Ticket">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+                <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
+                <ScalarProperty Name="Transaction_Id" ColumnName="Transaction_Id" />
+                <ScalarProperty Name="passenger_name" ColumnName="passenger_name" />
+                <ScalarProperty Name="seatNo" ColumnName="seatNo" />
+                <ScalarProperty Name="schedule_ID" ColumnName="schedule_ID" />
+                <ScalarProperty Name="Ticket_status" ColumnName="Ticket_status" />
+                <ScalarProperty Name="Passenger_type" ColumnName="Passenger_type" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="document_type" ColumnName="document_type" />
+                <ScalarProperty Name="document_no" ColumnName="document_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="FlyAceModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+                <ScalarProperty Name="Transaction_Id" ColumnName="Transaction_Id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="booking_time" ColumnName="booking_time" />
+                <ScalarProperty Name="TansactionType" ColumnName="TansactionType" />
+                <ScalarProperty Name="CardNo" ColumnName="CardNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_details">
+            <EntityTypeMapping TypeName="FlyAceModel.user_details">
+              <MappingFragment StoreEntitySet="user_details">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="Phoneno" ColumnName="Phoneno" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="prc_AddFlights" FunctionName="FlyAceModel.Store.prc_AddFlights" />
+          <FunctionImportMapping FunctionImportName="prc_AddTravelDate" FunctionName="FlyAceModel.Store.prc_AddTravelDate" />
+          <FunctionImportMapping FunctionImportName="prc_bookTicktes" FunctionName="FlyAceModel.Store.prc_bookTicktes" />
+          <FunctionImportMapping FunctionImportName="prc_cancelTicket" FunctionName="FlyAceModel.Store.prc_cancelTicket" />
+          <FunctionImportMapping FunctionImportName="prc_DisableSchedule" FunctionName="FlyAceModel.Store.prc_DisableSchedule" />
+          <FunctionImportMapping FunctionImportName="prc_FlightSeats" FunctionName="FlyAceModel.Store.prc_FlightSeats" />
+          <FunctionImportMapping FunctionImportName="prc_getSeats" FunctionName="FlyAceModel.Store.prc_getSeats">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FlyAceModel.prc_getSeats_Result">
+                <ScalarProperty Name="seatNo" ColumnName="seatNo" />
+                <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+                <ScalarProperty Name="seatClass" ColumnName="seatClass" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="prc_ViewSchedule" FunctionName="FlyAceModel.Store.prc_ViewSchedule">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FlyAceModel.prc_ViewSchedule_Result">
+                <ScalarProperty Name="Schedule_Id" ColumnName="Schedule_Id" />
+                <ScalarProperty Name="Plane_Name" ColumnName="Plane_Name" />
+                <ScalarProperty Name="Travel_Date" ColumnName="Travel_Date" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Departure_Time" ColumnName="Departure_Time" />
+                <ScalarProperty Name="Arrival_Time" ColumnName="Arrival_Time" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Seats_Booked" ColumnName="Seats Booked" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MarketEmails">
+            <EntityTypeMapping TypeName="FlyAceModel.MarketEmail">
+              <MappingFragment StoreEntitySet="MarketEmail">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Querries">
+            <EntityTypeMapping TypeName="FlyAceModel.Querry">
+              <MappingFragment StoreEntitySet="Querries">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="querry1" ColumnName="querry" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="prc_generateTransaction" FunctionName="FlyAceModel.Store.prc_generateTransaction" />
+          <FunctionImportMapping FunctionImportName="prc_displayTicket" FunctionName="FlyAceModel.Store.prc_displayTicket">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FlyAceModel.prc_displayTicket_Result">
+                <ScalarProperty Name="Schedule_Id" ColumnName="Schedule_Id" />
+                <ScalarProperty Name="Ticket_id" ColumnName="Ticket_id" />
+                <ScalarProperty Name="passenger_name" ColumnName="passenger_name" />
+                <ScalarProperty Name="seatNo" ColumnName="seatNo" />
+                <ScalarProperty Name="Ticket_status" ColumnName="Ticket_status" />
+                <ScalarProperty Name="passenger_type" ColumnName="passenger_type" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Arrival_Time" ColumnName="Arrival_Time" />
+                <ScalarProperty Name="Departure_Time" ColumnName="Departure_Time" />
+                <ScalarProperty Name="Travel_Date" ColumnName="Travel_Date" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="booking_time" ColumnName="booking_time" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="prc_getFlights" FunctionName="FlyAceModel.Store.prc_getFlights">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FlyAceModel.prc_getFlights_Result">
+                <ScalarProperty Name="Schedule_Id" ColumnName="Schedule_Id" />
+                <ScalarProperty Name="Plane_Name" ColumnName="Plane_Name" />
+                <ScalarProperty Name="Travel_Date" ColumnName="Travel_Date" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Arrival_Time" ColumnName="Arrival_Time" />
+                <ScalarProperty Name="Departure_Time" ColumnName="Departure_Time" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Price_B" ColumnName="Price_B" />
+                <ScalarProperty Name="Price_E" ColumnName="Price_E" />
+                <ScalarProperty Name="RemainingSeats" ColumnName="RemainingSeats" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

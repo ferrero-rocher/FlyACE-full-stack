@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FlyAceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="Card_No" />
+    </Key>
+    <Property Name="Card_No" Type="Int64" Nullable="false" />
+    <Property Name="Card_HolderName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Card_Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Expires" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CVV" Type="Int32" Nullable="false" />
+    <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__CardN__3A81B327" FromRole="Bank" ToRole="Transactions" />
+  </EntityType>
+  <EntityType Name="Flight">
+    <Key>
+      <PropertyRef Name="Flight_ID" />
+    </Key>
+    <Property Name="Flight_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="seatNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="schedule_ID" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="ticket_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="isAvailable" Type="Boolean" />
+    <Property Name="seatClass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Schedule" Relationship="Self.FK__Flights__schedul__300424B4" FromRole="Flights" ToRole="Schedule" />
+  </EntityType>
+  <EntityType Name="Plane">
+    <Key>
+      <PropertyRef Name="Plane_Id" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Plane_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Plane_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="No_of_Seats" Type="Int32" />
+    <NavigationProperty Name="Routes" Relationship="Self.FK__Routes__Plane_Id__286302EC" FromRole="Planes" ToRole="Routes" />
+  </EntityType>
+  <EntityType Name="Route">
+    <Key>
+      <PropertyRef Name="Route_Id" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Route_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Plane_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Day" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Arrival_Time" Type="Time" Precision="7" />
+    <Property Name="Departure_Time" Type="Time" Precision="7" />
+    <Property Name="Source" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Destination" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Duration" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Price_B" Type="Double" />
+    <Property Name="Price_E" Type="Double" />
+    <NavigationProperty Name="Plane" Relationship="Self.FK__Routes__Plane_Id__286302EC" FromRole="Routes" ToRole="Planes" />
+    <NavigationProperty Name="Schedules" Relationship="Self.FK__Schedule__Route___2C3393D0" FromRole="Routes" ToRole="Schedule" />
+  </EntityType>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="Schedule_Id" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Schedule_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Route_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Travel_Date" Type="DateTime" Precision="0" />
+    <Property Name="isAvailability" Type="Boolean" />
+    <NavigationProperty Name="Flights" Relationship="Self.FK__Flights__schedul__300424B4" FromRole="Schedule" ToRole="Flights" />
+    <NavigationProperty Name="Route" Relationship="Self.FK__Schedule__Route___2C3393D0" FromRole="Schedule" ToRole="Routes" />
+    <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__schedul__3F466844" FromRole="Schedule" ToRole="Tickets" />
+  </EntityType>
+  <EntityType Name="Ticket">
+    <Key>
+      <PropertyRef Name="Ticket_Id" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Ticket_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Transaction_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="passenger_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="seatNo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="schedule_ID" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Ticket_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Passenger_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="document_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="document_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Schedule" Relationship="Self.FK__Tickets__schedul__3F466844" FromRole="Tickets" ToRole="Schedule" />
+    <NavigationProperty Name="user_details" Relationship="Self.FK__Tickets__email__403A8C7D" FromRole="Tickets" ToRole="user_details" />
+    <NavigationProperty Name="Transaction" Relationship="Self.FK__Tickets__Transac__3E52440B" FromRole="Tickets" ToRole="Transactions" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="Transaction_Id" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PreFix" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Transaction_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="amount" Type="Double" Nullable="false" />
+    <Property Name="booking_time" Type="DateTime" Precision="3" />
+    <Property Name="TansactionType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CardNo" Type="Int64" />
+    <NavigationProperty Name="Bank" Relationship="Self.FK__Transacti__CardN__3A81B327" FromRole="Transactions" ToRole="Bank" />
+    <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__Transac__3E52440B" FromRole="Transactions" ToRole="Tickets" />
+    <NavigationProperty Name="user_details" Relationship="Self.FK__Transacti__email__38996AB5" FromRole="Transactions" ToRole="user_details" />
+  </EntityType>
+  <EntityType Name="user_details">
+    <Key>
+      <PropertyRef Name="email" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Phoneno" Type="Int64" Nullable="false" />
+    <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__email__403A8C7D" FromRole="user_details" ToRole="Tickets" />
+    <NavigationProperty Name="Transactions" Relationship="Self.FK__Transacti__email__38996AB5" FromRole="user_details" ToRole="Transactions" />
+  </EntityType>
+  <Association Name="FK__Transacti__CardN__3A81B327">
+    <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
+    <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="Card_No" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="CardNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Flights__schedul__300424B4">
+    <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+    <End Role="Flights" Type="Self.Flight" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Schedule">
+        <PropertyRef Name="Schedule_Id" />
+      </Principal>
+      <Dependent Role="Flights">
+        <PropertyRef Name="schedule_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Routes__Plane_Id__286302EC">
+    <End Role="Planes" Type="Self.Plane" Multiplicity="0..1" />
+    <End Role="Routes" Type="Self.Route" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Planes">
+        <PropertyRef Name="Plane_Id" />
+      </Principal>
+      <Dependent Role="Routes">
+        <PropertyRef Name="Plane_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Schedule__Route___2C3393D0">
+    <End Role="Routes" Type="Self.Route" Multiplicity="0..1" />
+    <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Routes">
+        <PropertyRef Name="Route_Id" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="Route_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tickets__schedul__3F466844">
+    <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+    <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Schedule">
+        <PropertyRef Name="Schedule_Id" />
+      </Principal>
+      <Dependent Role="Tickets">
+        <PropertyRef Name="schedule_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tickets__email__403A8C7D">
+    <End Role="user_details" Type="Self.user_details" Multiplicity="0..1" />
+    <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_details">
+        <PropertyRef Name="email" />
+      </Principal>
+      <Dependent Role="Tickets">
+        <PropertyRef Name="email" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tickets__Transac__3E52440B">
+    <End Role="Transactions" Type="Self.Transaction" Multiplicity="0..1" />
+    <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Transactions">
+        <PropertyRef Name="Transaction_Id" />
+      </Principal>
+      <Dependent Role="Tickets">
+        <PropertyRef Name="Transaction_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Transacti__email__38996AB5">
+    <End Role="user_details" Type="Self.user_details" Multiplicity="0..1" />
+    <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_details">
+        <PropertyRef Name="email" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="email" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FlyAceEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Banks" EntityType="Self.Bank" />
+    <EntitySet Name="Flights" EntityType="Self.Flight" />
+    <EntitySet Name="Planes" EntityType="Self.Plane" />
+    <EntitySet Name="Routes" EntityType="Self.Route" />
+    <EntitySet Name="Schedules" EntityType="Self.Schedule" />
+    <EntitySet Name="Tickets" EntityType="Self.Ticket" />
+    <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+    <EntitySet Name="user_details" EntityType="Self.user_details" />
+    <AssociationSet Name="FK__Transacti__CardN__3A81B327" Association="Self.FK__Transacti__CardN__3A81B327">
+      <End Role="Bank" EntitySet="Banks" />
+      <End Role="Transactions" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Flights__schedul__300424B4" Association="Self.FK__Flights__schedul__300424B4">
+      <End Role="Schedule" EntitySet="Schedules" />
+      <End Role="Flights" EntitySet="Flights" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Routes__Plane_Id__286302EC" Association="Self.FK__Routes__Plane_Id__286302EC">
+      <End Role="Planes" EntitySet="Planes" />
+      <End Role="Routes" EntitySet="Routes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Schedule__Route___2C3393D0" Association="Self.FK__Schedule__Route___2C3393D0">
+      <End Role="Routes" EntitySet="Routes" />
+      <End Role="Schedule" EntitySet="Schedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tickets__schedul__3F466844" Association="Self.FK__Tickets__schedul__3F466844">
+      <End Role="Schedule" EntitySet="Schedules" />
+      <End Role="Tickets" EntitySet="Tickets" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tickets__email__403A8C7D" Association="Self.FK__Tickets__email__403A8C7D">
+      <End Role="user_details" EntitySet="user_details" />
+      <End Role="Tickets" EntitySet="Tickets" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tickets__Transac__3E52440B" Association="Self.FK__Tickets__Transac__3E52440B">
+      <End Role="Transactions" EntitySet="Transactions" />
+      <End Role="Tickets" EntitySet="Tickets" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Transacti__email__38996AB5" Association="Self.FK__Transacti__email__38996AB5">
+      <End Role="user_details" EntitySet="user_details" />
+      <End Role="Transactions" EntitySet="Transactions" />
+    </AssociationSet>
+    <FunctionImport Name="prc_AddFlights">
+      <Parameter Name="planeName" Mode="In" Type="String" />
+      <Parameter Name="NoSeats" Mode="In" Type="Int32" />
+      <Parameter Name="day" Mode="In" Type="String" />
+      <Parameter Name="arrTime" Mode="In" Type="Time" />
+      <Parameter Name="deptTime" Mode="In" Type="Time" />
+      <Parameter Name="from" Mode="In" Type="String" />
+      <Parameter Name="to" Mode="In" Type="String" />
+      <Parameter Name="priceB" Mode="In" Type="Double" />
+      <Parameter Name="priceE" Mode="In" Type="Double" />
+      <Parameter Name="noWeeks" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="prc_AddTravelDate">
+      <Parameter Name="day" Mode="In" Type="String" />
+      <Parameter Name="noWeeks" Mode="In" Type="Int32" />
+      <Parameter Name="Rout_Id" Mode="In" Type="String" />
+      <Parameter Name="noSeats" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="prc_bookTicktes">
+      <Parameter Name="transId" Mode="In" Type="String" />
+      <Parameter Name="Pname" Mode="In" Type="String" />
+      <Parameter Name="seatNo" Mode="In" Type="String" />
+      <Parameter Name="Sch_Id" Mode="In" Type="String" />
+      <Parameter Name="P_Type" Mode="In" Type="String" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="doc_type" Mode="In" Type="String" />
+      <Parameter Name="doc_no" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="prc_cancelTicket">
+      <Parameter Name="TicketId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="prc_DisableSchedule">
+      <Parameter Name="schedule_ID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="prc_displayTickets" ReturnType="Collection(FlyAceModel.prc_displayTickets_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="prc_FlightSeats">
+      <Parameter Name="no" Mode="In" Type="Int32" />
+      <Parameter Name="scheduleID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="prc_generateTranction" ReturnType="Collection(String)">
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="amount" Mode="In" Type="Double" />
+      <Parameter Name="t_type" Mode="In" Type="String" />
+      <Parameter Name="cardno" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="prc_getSeats" ReturnType="Collection(FlyAceModel.prc_getSeats_Result)">
+      <Parameter Name="ScheduleID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="PRC_SearchFlights" ReturnType="Collection(FlyAceModel.PRC_SearchFlights_Result)">
+      <Parameter Name="from" Mode="In" Type="String" />
+      <Parameter Name="to" Mode="In" Type="String" />
+      <Parameter Name="trvDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="prc_ViewSchedule" ReturnType="Collection(FlyAceModel.prc_ViewSchedule_Result)" />
+    <EntitySet Name="MarketEmails" EntityType="FlyAceModel.MarketEmail" />
+    <EntitySet Name="Querries" EntityType="FlyAceModel.Querry" />
+    <FunctionImport Name="prc_generateTransaction" ReturnType="Collection(String)">
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="amount" Mode="In" Type="Double" />
+      <Parameter Name="t_type" Mode="In" Type="String" />
+      <Parameter Name="cardno" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="prc_SearchFlights1" ReturnType="Collection(FlyAceModel.prc_SearchFlights1_Result)">
+      <Parameter Name="from" Mode="In" Type="String" />
+      <Parameter Name="to" Mode="In" Type="String" />
+      <Parameter Name="trvDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="prc_displayTicket" ReturnType="Collection(FlyAceModel.prc_displayTicket_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="prc_SearchFlights2" ReturnType="Collection(FlyAceModel.prc_SearchFlights2_Result)">
+      <Parameter Name="from" Mode="In" Type="String" />
+      <Parameter Name="to" Mode="In" Type="String" />
+      <Parameter Name="trvDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="prc_getFlights" ReturnType="Collection(FlyAceModel.prc_getFlights_Result)">
+      <Parameter Name="from" Mode="In" Type="String" />
+      <Parameter Name="to" Mode="In" Type="String" />
+      <Parameter Name="trvDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="prc_displayTickets_Result">
+    <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="Ticket_id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="passenger_name" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="seatNo" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="Ticket_status" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="passenger_type" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+    <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+    <Property Type="Time" Name="Departure_Time" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="prc_getSeats_Result">
+    <Property Type="String" Name="seatNo" Nullable="false" MaxLength="5" />
+    <Property Type="Boolean" Name="isAvailable" Nullable="true" />
+    <Property Type="String" Name="seatClass" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="PRC_SearchFlights_Result">
+    <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+    <Property Type="String" Name="Day" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+    <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+    <Property Type="Time" Name="Departure_Time" Nullable="true" />
+    <Property Type="Int32" Name="Duration" Nullable="true" />
+    <Property Type="Double" Name="Price_B" Nullable="true" />
+    <Property Type="Double" Name="Price_E" Nullable="true" />
+    <Property Type="Int32" Name="RemainingSeats" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="prc_ViewSchedule_Result">
+    <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+    <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+    <Property Type="Time" Name="Departure_Time" Nullable="true" />
+    <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+    <Property Type="Int32" Name="Duration" Nullable="true" />
+    <Property Type="Int32" Name="Seats_Booked" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="MarketEmail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Querry">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="Int64" />
+    <Property Name="location" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="querry1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Boolean" />
+  </EntityType>
+  <ComplexType Name="prc_SearchFlights1_Result">
+    <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+    <Property Type="String" Name="Day" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+    <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+    <Property Type="Time" Name="Departure_Time" Nullable="true" />
+    <Property Type="Int32" Name="Duration" Nullable="true" />
+    <Property Type="Double" Name="Price_B" Nullable="true" />
+    <Property Type="Double" Name="Price_E" Nullable="true" />
+    <Property Type="Int32" Name="RemainingSeats" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="prc_displayTicket_Result">
+    <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="Ticket_id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="passenger_name" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="seatNo" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="Ticket_status" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="passenger_type" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+    <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+    <Property Type="Time" Name="Departure_Time" Nullable="true" />
+    <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+    <Property Type="Int32" Name="Duration" Nullable="true" />
+    <Property Type="DateTime" Name="booking_time" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Class" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="prc_SearchFlights2_Result">
+    <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+    <Property Type="String" Name="Day" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+    <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+    <Property Type="Time" Name="Departure_Time" Nullable="true" />
+    <Property Type="Int32" Name="Duration" Nullable="true" />
+    <Property Type="Double" Name="Price_B" Nullable="true" />
+    <Property Type="Double" Name="Price_E" Nullable="true" />
+    <Property Type="Int32" Name="RemainingSeats" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="prc_getFlights_Result">
+    <Property Type="String" Name="Schedule_Id" Nullable="true" MaxLength="9" />
+    <Property Type="String" Name="Plane_Name" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="Travel_Date" Nullable="true" />
+    <Property Type="String" Name="Day" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Source" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Destination" Nullable="true" MaxLength="20" />
+    <Property Type="Time" Name="Arrival_Time" Nullable="true" />
+    <Property Type="Time" Name="Departure_Time" Nullable="true" />
+    <Property Type="Int32" Name="Duration" Nullable="true" />
+    <Property Type="Double" Name="Price_B" Nullable="true" />
+    <Property Type="Double" Name="Price_E" Nullable="true" />
+    <Property Type="Int32" Name="RemainingSeats" Nullable="true" />
+  </ComplexType>
+</Schema>

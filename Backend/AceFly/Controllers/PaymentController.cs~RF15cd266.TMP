@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using AceFly.Models;
+
+namespace AceFly.Controllers
+{
+    public class PaymentController : ApiController
+    {
+        FlyAceEntities db = new FlyAceEntities();
+        public IHttpActionResult GetUsers()
+        {
+            var details = db.Banks.ToList();
+            return Ok(details);
+
+        }
+        [HttpPost]
+        public IHttpActionResult PaymentTransactions(CardInputs card)
+        {
+            var result = db.Banks.Where(x => x.Card_No == card.Card_No && x.Card_HolderName == card.Card_HolderName && x.Card_Type == card.Card_Type && x.CVV == card.CVV && x.Expires == card.Expires).FirstOrDefault();
+
+            if (result != null)
+            {
+                if (result.Balance > Convert.ToDecimal(card.amount))
+                {
+                    result.Balance = result.Balance - Convert.ToDecimal(card.amount);
+                    db.SaveChanges();
+                    string tranID = db.prc_generateTransaction(card.email, card.amount, card.TansactionType, card.Card_No).Single();
+                    int count = 0;
+                    foreach (var Pass in card.passengersinfo)
+                    {
+                        db.prc_bookTicktes(tranID, Pass.passenger_name, Pass.seatNo, Pass.Schedule_Id, Pass.Passenger_type, card.email, Pass.document_type, Pass.document_no);
+                        count++;
+
+                    }
+                    return Ok("Your Payment has been Successful." + tranID + count.ToString());
+                }
+                else
+                {
+                    return Ok("Insufficient credits ");
+                }
+            }
+            else
+            {
+                return Ok("Invalid Credentials");
+            }
+
+        }
+
+        [HttpPost]
+        public IHttpActionResult CancelTickets(string TicketId, int refundamount)
+        {
+            Ticket transact = db.Tickets.Where(x => x.Ticket_Id == TicketId).FirstOrDefault();
+            Transaction CardData = db.Transactions.Where(x => x.Transaction_Id == transact.Transaction_Id).FirstOrDefault();
+            Bank acc = db.Banks.Where(x => x.Card_No == CardData.CardNo).FirstOrDefault();
+            acc.Balance = acc.Balance + Convert.ToDecimal(refundamount);
+            db.SaveChanges();
+            string tranID = db.prc_generateTransaction(CardData.email, CardData.amount, "Cancelation", acc.Card_No).Single();
+            db.prc_cancelTicket(TicketId);
+            return Ok("Balance Refunded" + tranID);
+        }
+
+    }
+}

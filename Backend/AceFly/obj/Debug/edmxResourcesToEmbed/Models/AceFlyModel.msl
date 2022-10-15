@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FlyAceModelStoreContainer" CdmEntityContainer="FlyAceEntities">
+    <EntitySetMapping Name="Banks">
+      <EntityTypeMapping TypeName="FlyAceModel.Bank">
+        <MappingFragment StoreEntitySet="Bank">
+          <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+          <ScalarProperty Name="Card_HolderName" ColumnName="Card_HolderName" />
+          <ScalarProperty Name="Card_Type" ColumnName="Card_Type" />
+          <ScalarProperty Name="Expires" ColumnName="Expires" />
+          <ScalarProperty Name="CVV" ColumnName="CVV" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Flights">
+      <EntityTypeMapping TypeName="FlyAceModel.Flight">
+        <MappingFragment StoreEntitySet="Flights">
+          <ScalarProperty Name="Flight_ID" ColumnName="Flight_ID" />
+          <ScalarProperty Name="seatNo" ColumnName="seatNo" />
+          <ScalarProperty Name="schedule_ID" ColumnName="schedule_ID" />
+          <ScalarProperty Name="ticket_ID" ColumnName="ticket_ID" />
+          <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+          <ScalarProperty Name="seatClass" ColumnName="seatClass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Planes">
+      <EntityTypeMapping TypeName="FlyAceModel.Plane">
+        <MappingFragment StoreEntitySet="Planes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+          <ScalarProperty Name="Plane_Id" ColumnName="Plane_Id" />
+          <ScalarProperty Name="Plane_Name" ColumnName="Plane_Name" />
+          <ScalarProperty Name="No_of_Seats" ColumnName="No_of_Seats" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Routes">
+      <EntityTypeMapping TypeName="FlyAceModel.Route">
+        <MappingFragment StoreEntitySet="Routes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+          <ScalarProperty Name="Route_Id" ColumnName="Route_Id" />
+          <ScalarProperty Name="Plane_Id" ColumnName="Plane_Id" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="Arrival_Time" ColumnName="Arrival_Time" />
+          <ScalarProperty Name="Departure_Time" ColumnName="Departure_Time" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Price_B" ColumnName="Price_B" />
+          <ScalarProperty Name="Price_E" ColumnName="Price_E" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Schedules">
+      <EntityTypeMapping TypeName="FlyAceModel.Schedule">
+        <MappingFragment StoreEntitySet="Schedule">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+          <ScalarProperty Name="Schedule_Id" ColumnName="Schedule_Id" />
+          <ScalarProperty Name="Route_Id" ColumnName="Route_Id" />
+          <ScalarProperty Name="Travel_Date" ColumnName="Travel_Date" />
+          <ScalarProperty Name="isAvailability" ColumnName="isAvailability" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tickets">
+      <EntityTypeMapping TypeName="FlyAceModel.Ticket">
+        <MappingFragment StoreEntitySet="Tickets">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+          <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
+          <ScalarProperty Name="Transaction_Id" ColumnName="Transaction_Id" />
+          <ScalarProperty Name="passenger_name" ColumnName="passenger_name" />
+          <ScalarProperty Name="seatNo" ColumnName="seatNo" />
+          <ScalarProperty Name="schedule_ID" ColumnName="schedule_ID" />
+          <ScalarProperty Name="Ticket_status" ColumnName="Ticket_status" />
+          <ScalarProperty Name="Passenger_type" ColumnName="Passenger_type" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="document_type" ColumnName="document_type" />
+          <ScalarProperty Name="document_no" ColumnName="document_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transactions">
+      <EntityTypeMapping TypeName="FlyAceModel.Transaction">
+        <MappingFragment StoreEntitySet="Transactions">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+          <ScalarProperty Name="Transaction_Id" ColumnName="Transaction_Id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="booking_time" ColumnName="booking_time" />
+          <ScalarProperty Name="TansactionType" ColumnName="TansactionType" />
+          <ScalarProperty Name="CardNo" ColumnName="CardNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user_details">
+      <EntityTypeMapping TypeName="FlyAceModel.user_details">
+        <MappingFragment StoreEntitySet="user_details">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="Phoneno" ColumnName="Phoneno" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="prc_AddFlights" FunctionName="FlyAceModel.Store.prc_AddFlights" />
+    <FunctionImportMapping FunctionImportName="prc_AddTravelDate" FunctionName="FlyAceModel.Store.prc_AddTravelDate" />
+    <FunctionImportMapping FunctionImportName="prc_bookTicktes" FunctionName="FlyAceModel.Store.prc_bookTicktes" />
+    <FunctionImportMapping FunctionImportName="prc_cancelTicket" FunctionName="FlyAceModel.Store.prc_cancelTicket" />
+    <FunctionImportMapping FunctionImportName="prc_DisableSchedule" FunctionName="FlyAceModel.Store.prc_DisableSchedule" />
+    <FunctionImportMapping FunctionImportName="prc_FlightSeats" FunctionName="FlyAceModel.Store.prc_FlightSeats" />
+    <FunctionImportMapping FunctionImportName="prc_getSeats" FunctionName="FlyAceModel.Store.prc_getSeats">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="FlyAceModel.prc_getSeats_Result">
+          <ScalarProperty Name="seatNo" ColumnName="seatNo" />
+          <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+          <ScalarProperty Name="seatClass" ColumnName="seatClass" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="prc_ViewSchedule" FunctionName="FlyAceModel.Store.prc_ViewSchedule">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="FlyAceModel.prc_ViewSchedule_Result">
+          <ScalarProperty Name="Schedule_Id" ColumnName="Schedule_Id" />
+          <ScalarProperty Name="Plane_Name" ColumnName="Plane_Name" />
+          <ScalarProperty Name="Travel_Date" ColumnName="Travel_Date" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Departure_Time" ColumnName="Departure_Time" />
+          <ScalarProperty Name="Arrival_Time" ColumnName="Arrival_Time" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Seats_Booked" ColumnName="Seats Booked" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="MarketEmails">
+      <EntityTypeMapping TypeName="FlyAceModel.MarketEmail">
+        <MappingFragment StoreEntitySet="MarketEmail">
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Querries">
+      <EntityTypeMapping TypeName="FlyAceModel.Querry">
+        <MappingFragment StoreEntitySet="Querries">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="querry1" ColumnName="querry" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="prc_generateTransaction" FunctionName="FlyAceModel.Store.prc_generateTransaction" />
+    <FunctionImportMapping FunctionImportName="prc_displayTicket" FunctionName="FlyAceModel.Store.prc_displayTicket">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="FlyAceModel.prc_displayTicket_Result">
+          <ScalarProperty Name="Schedule_Id" ColumnName="Schedule_Id" />
+          <ScalarProperty Name="Ticket_id" ColumnName="Ticket_id" />
+          <ScalarProperty Name="passenger_name" ColumnName="passenger_name" />
+          <ScalarProperty Name="seatNo" ColumnName="seatNo" />
+          <ScalarProperty Name="Ticket_status" ColumnName="Ticket_status" />
+          <ScalarProperty Name="passenger_type" ColumnName="passenger_type" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Arrival_Time" ColumnName="Arrival_Time" />
+          <ScalarProperty Name="Departure_Time" ColumnName="Departure_Time" />
+          <ScalarProperty Name="Travel_Date" ColumnName="Travel_Date" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="booking_time" ColumnName="booking_time" />
+          <ScalarProperty Name="Class" ColumnName="Class" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="prc_getFlights" FunctionName="FlyAceModel.Store.prc_getFlights">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="FlyAceModel.prc_getFlights_Result">
+          <ScalarProperty Name="Schedule_Id" ColumnName="Schedule_Id" />
+          <ScalarProperty Name="Plane_Name" ColumnName="Plane_Name" />
+          <ScalarProperty Name="Travel_Date" ColumnName="Travel_Date" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Arrival_Time" ColumnName="Arrival_Time" />
+          <ScalarProperty Name="Departure_Time" ColumnName="Departure_Time" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Price_B" ColumnName="Price_B" />
+          <ScalarProperty Name="Price_E" ColumnName="Price_E" />
+          <ScalarProperty Name="RemainingSeats" ColumnName="RemainingSeats" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

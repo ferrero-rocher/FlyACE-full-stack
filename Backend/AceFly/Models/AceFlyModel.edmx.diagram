@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9fa6400a46374d5483f8ff0ebc883179" Name="Diagram1">
+        <EntityTypeShape EntityType="FlyAceModel.Bank" Width="1.5" PointX="3.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlyAceModel.Flight" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlyAceModel.Plane" Width="1.5" PointX="1.5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlyAceModel.Route" Width="1.5" PointX="1.5" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlyAceModel.Schedule" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlyAceModel.Ticket" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlyAceModel.Transaction" Width="1.5" PointX="6" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FlyAceModel.user_details" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="FlyAceModel.FK__Transacti__CardN__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="FlyAceModel.FK__Flights__schedul__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="FlyAceModel.FK__Routes__Plane_Id__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="FlyAceModel.FK__Schedule__Route___2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="FlyAceModel.FK__Tickets__schedul__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="FlyAceModel.FK__Tickets__email__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="FlyAceModel.FK__Tickets__Transac__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="FlyAceModel.FK__Transacti__email__38996AB5" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FlyAceModel.MarketEmail" Width="1.5" PointX="6.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FlyAceModel.Querry" Width="1.5" PointX="8.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
